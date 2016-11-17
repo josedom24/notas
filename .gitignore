@@ -1,0 +1,4 @@
+ldap.ldif
+notas.json
+*.pyc
+notas.cfg
