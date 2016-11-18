@@ -5,7 +5,7 @@
  <div class="row">
     <div class="col-lg-12">
         <h1>{{alumno}}</h1>
-        {% for col,info,cab,val in combi|slice:":1" %}
+        {% for info,cab,val in combi|slice:":1" %}
         <h4>{{info.titulo}}</h4>
         <hr/>
         <h5>Primera evaluación</h5>
@@ -42,19 +42,19 @@
 
         <table class="table table-bordered">
             <tr>
-                {% for c in cab %}
+                {% for col,c in cab %}
                     <td>{{c}}</td>
                {% endfor %}
            </tr>
            <tr class="info">
-               {% for v in val %}
+               {% for col,v in val %}
                     <td>{{v}}</td>
                {% endfor %}
           </tr>
         </table>
         {% endfor %}        
         <hr/><h3>Primera evaluación</h3>
-        {% for col,info,cab,datos in combi|slice:"1:" %}
+        {% for info,cab,datos in combi|slice:"1:" %}
         <h4>{{info.titulo}}</h4>
         <h5>Puntos:{{info.puntos}}/{{info.total_puntos}}</h5>
         {% if info.tareas|length > 0 %}
@@ -74,13 +74,13 @@
 
         <table class="table table-bordered">
         <tr>
-        {%for dot in cab %}
-        <td> {{dot}}</td>
+        {%for col,dot in cab %}
+        <td class="{{col}} text-justify"> {{dot}}</td>
         {% endfor%}
         </tr>
         <tr>
-            {%for val in datos %}
-            <td>{{val}}</td>
+            {%for col,val in datos %}
+            <td class="{{col}} text-justify">{{val}}</td>
             {% endfor %}
         </tr>
         </table>

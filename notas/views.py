@@ -21,8 +21,7 @@ def index(request):
     gengm=gm.worksheet("General")
     values_list_gs = gengs.col_values(1)
     values_list_gm = gengm.col_values(1)
-    nombre="Andrades Gil, Alberto"
-    #nombre=request.user.last_name+", "+request.user.first_name
+    nombre=request.user.last_name+", "+request.user.first_name
 
     if nombre in values_list_gs:
         return grado_sup(request,gs) 
@@ -36,6 +35,8 @@ def grado_sup(request,gs):
     context["alumno"]=request.user.last_name+", "+request.user.first_name
     datos=[]
     cabeceras=[]
+    cabeceras2=[]
+    datos2=[]
     info=[]
     col=[]
     p1ev={'puntos':0,'total_puntos':0,'puntos_vol':0,'total_puntos_vol':0}
@@ -43,6 +44,7 @@ def grado_sup(request,gs):
     cont=0
     for hoja in gs.worksheets():
         cell = hoja.find(context["alumno"])
+        
         cabeceras.append(hoja.row_values(1)[1:])
         datos.append(hoja.row_values(cell.row)[1:])
         dic={}       
@@ -66,9 +68,13 @@ def grado_sup(request,gs):
                 p[k]=p[k]+int(dic[k])
             except:
                 pass
-        cont=cont+1 
-        col.append(color(cabeceras,datos))
-    context["combi"]=zip(col,info,cabeceras,datos)
+        cont=cont+1
+        col=color(cabeceras,datos)
+        cab=zip(col,hoja.row_values(1)[1:])
+        dat=zip(col,hoja.row_values(cell.row)[1:])
+        cabeceras2.append(cab)
+        datos2.append(dat)
+    context["combi"]=zip(info,cabeceras2,datos2)
     context["p"]=p
     context["p1ev"]=p1ev
     context["por1ev"]=int(p1ev['puntos']*100/p1ev['total_puntos'])
@@ -76,7 +82,7 @@ def grado_sup(request,gs):
     context["por"]=int(p['puntos']*100/p['total_puntos'])
     context["porvol"]=int(p['puntos_vol']*100/p['total_puntos_vol'])
 
-    print context["combi"]
+    #print context["combi"]
     #return HttpReponse(context["datos"])
     return render(request,"index.html",context)
 
@@ -129,7 +135,7 @@ def color(cab,dat):
         if v=="":
             resp.append("active")
         elif "*" in c:
-            resp.append("warning")
+            resp.append("danger")
         else:
             resp.append("info")
     return resp

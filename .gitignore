@@ -3,3 +3,4 @@ notas.json
 *.pyc
 notas.cfg
 *.swp
+*.swo
