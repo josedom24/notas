@@ -24,15 +24,44 @@ def index(request):
     nombre=request.user.last_name+", "+request.user.first_name
 
     if nombre in values_list_gs:
-        return grado_sup(request,gs,values_list_gs.index(nombre)+1) 
+        return grado_sup(request,gs,values_list_gs.index(nombre)+1,nombre) 
     elif nombre in values_list_gm: 
-        return grado_med(request,gm,values_list_gm.index(nombre)+1)
+        return grado_med(request,gm,values_list_gm.index(nombre)+1,nombre)
+    elif request.user.username=="josedom":
+        return admin(request,values_list_gs[1:-2],values_list_gm[2:])
     else:
         return HttpResponse("adios")
 
-def grado_med(request,gm,celda):
+
+@login_required(login_url='/admin/login/')
+def ver(request,tipo,num):
+    if request.user.username=="josedom":
+        scope = ['https://spreadsheets.google.com/feeds']
+        credentials = ServiceAccountCredentials.from_json_keyfile_name('notas.json', scope)
+        gc = gspread.authorize(credentials)
+        if tipo=="gs":
+                gs=gc.open("ServiciosGS")
+                gengs=gs.worksheet("General")
+                values_list_gs = gengs.col_values(1)
+                nombre=values_list_gs[int(num)+1]
+                return grado_sup(request,gs,int(num)+2,nombre)
+        else:
+                gm=gc.open("ServiciosGM")
+                gengm=gm.worksheet("Windows")
+                values_list_gm = gengm.col_values(1)
+                nombre=values_list_gm[int(num)+2]
+                return grado_med(request,gm,int(num)+3,nombre)
+
+def admin(request,gs,gm):
     context={}
-    context["alumno"]=request.user.last_name+", "+request.user.first_name
+    context["gs"]=gs
+    context["gm"]=gm
+    return render(request,"index3.html",context)
+
+
+def grado_med(request,gm,celda,nombre):
+    context={}
+    context["alumno"]=nombre
     datos=[]
     cabeceras=[]
     puntos=[]
@@ -64,9 +93,9 @@ def grado_med(request,gm,celda):
 
 
 
-def grado_sup(request,gs,celda):
+def grado_sup(request,gs,celda,nombre):
     context={}
-    context["alumno"]=request.user.last_name+", "+request.user.first_name
+    context["alumno"]=nombre
     datos=[]
     cabeceras=[]
     cabeceras2=[]
@@ -106,7 +135,7 @@ def grado_sup(request,gs,celda):
         if cont==1:
             col=['info','info','info','info','info','info','danger','danger','info','info','info','info','info','info','danger','danger','danger']
         cab=hoja.row_values(1)[1:]
-        dat=hoja.row_values(cell.row)[1:]
+        dat=hoja.row_values(celda)[1:]
         cab[-1]=cab[-1].join(['<strong>','</strong>'])
         dat[-1]=dat[-1].join(['<strong>','</strong>'])
         if cont==1:

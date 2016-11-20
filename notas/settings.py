@@ -168,3 +168,8 @@ if DEBUG:
        logfile, maxBytes=1024 * 500, backupCount=5)
 
     my_logger.addHandler(handler)
+
+from django.contrib import admin
+admin.site.site_header="Gonzalo Nazareno - Notas"
+admin.site.index_title="Notas"
+
