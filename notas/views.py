@@ -18,19 +18,53 @@ def index(request):
     gs=gc.open("ServiciosGS")
     gm=gc.open("ServiciosGM")
     gengs=gs.worksheet("General")
-    gengm=gm.worksheet("General")
+    gengm=gm.worksheet("Windows")
     values_list_gs = gengs.col_values(1)
     values_list_gm = gengm.col_values(1)
     nombre=request.user.last_name+", "+request.user.first_name
 
     if nombre in values_list_gs:
-        return grado_sup(request,gs) 
+        return grado_sup(request,gs,values_list_gs.index(nombre)+1) 
     elif nombre in values_list_gm: 
-        return HttpResponse("gm")
+        return grado_med(request,gm,values_list_gm.index(nombre)+1)
     else:
         return HttpResponse("adios")
 
-def grado_sup(request,gs):
+def grado_med(request,gm,celda):
+    context={}
+    context["alumno"]=request.user.last_name+", "+request.user.first_name
+    datos=[]
+    cabeceras=[]
+    puntos=[]
+    info=[]
+    cont=0
+    for hoja in gm.worksheets():
+        cabeceras.append(hoja.row_values(1)[1:])
+        puntos.append(hoja.row_values(2)[1:])
+        datos.append(hoja.row_values(celda)[1:])
+        dic={}       
+        dic['titulo']=hoja.title
+        if cont==0:
+            dic['porcentaje']=int(float(datos[0][-2].replace(",","."))*100/int(puntos[0][-2]))
+        else:
+            dic['porcentaje']=int(float(datos[cont][-1].replace(",","."))*100/int(puntos[cont][-1]))
+        cont=cont+1
+        info.append(dic)
+    context["combi"]=zip(info,puntos,cabeceras,datos)
+    combi2=[]
+    for i,punt,cab,dat in context["combi"][1:]:
+        combi2.append(zip(cab,dat,punt))
+    context["combi2"]=zip(info[1:],combi2)
+    print context["combi2"]
+    return render(request,"index2.html",context)
+
+
+
+
+
+
+
+def grado_sup(request,gs,celda):
     context={}
     context["alumno"]=request.user.last_name+", "+request.user.first_name
     datos=[]
@@ -43,10 +77,9 @@ def grado_sup(request,gs):
     p={'puntos':0,'total_puntos':0,'puntos_vol':0,'total_puntos_vol':0}
     cont=0
     for hoja in gs.worksheets():
-        cell = hoja.find(context["alumno"])
         
         cabeceras.append(hoja.row_values(1)[1:])
-        datos.append(hoja.row_values(cell.row)[1:])
+        datos.append(hoja.row_values(celda)[1:])
         dic={}       
         dic['titulo']=hoja.title
         dic['porcentaje']=porcentaje(cabeceras,datos)
@@ -70,8 +103,18 @@ def grado_sup(request,gs):
                 pass
         cont=cont+1
         col=color(cabeceras,datos)
-        cab=zip(col,hoja.row_values(1)[1:])
-        dat=zip(col,hoja.row_values(cell.row)[1:])
+        if cont==1:
+            col=['info','info','info','info','info','info','danger','danger','info','info','info','info','info','info','danger','danger','danger']
+        cab=hoja.row_values(1)[1:]
+        dat=hoja.row_values(cell.row)[1:]
+        cab[-1]=cab[-1].join(['<strong>','</strong>'])
+        dat[-1]=dat[-1].join(['<strong>','</strong>'])
+        if cont==1:
+            for i in [6,7,-2,-3]:
+                cab[i]=cab[i].join(['<strong>','</strong>'])
+                dat[i]=dat[i].join(['<strong>','</strong>'])
+        cab=zip(col,cab)
+        dat=zip(col,dat)
         cabeceras2.append(cab)
         datos2.append(dat)
     context["combi"]=zip(info,cabeceras2,datos2)

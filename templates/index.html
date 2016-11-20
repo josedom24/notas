@@ -5,11 +5,12 @@
  <div class="row">
     <div class="col-lg-12">
         <h1>{{alumno}}</h1>
+        <h2>Servicios de Red e Internet (2ºASIR)</h2>
         {% for info,cab,val in combi|slice:":1" %}
-        <h4>{{info.titulo}}</h4>
+        <h3>{{info.titulo}}</h3>
         <hr/>
-        <h5>Primera evaluación</h5>
-        <h5>Puntos: {{p1ev.puntos}}/{{p1ev.total_puntos}}</h5>
+        <h4>Primera evaluación</h4
+        <h5><strong>Puntos: {{p1ev.puntos}}/{{p1ev.total_puntos}}</strong></h5>
         <div class="progress">
             <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width:{{por1ev}}%">
                   {{por1ev}}%
@@ -18,22 +19,22 @@
 
 
 
-        <h5>Puntos obligatorios:{{p1ev.puntos_vol}}/{{p1ev.total_puntos_vol}}</h5>
+        <h5><strong>Puntos obligatorios:{{p1ev.puntos_vol}}/{{p1ev.total_puntos_vol}}</strong></h5>
         <div class="progress">
             <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width:{{porvol1ev}}%">
                   {{porvol1ev}}%
                 </div>
         </div>
         <hr/>
-        <h5>Curso</h5>
-        <h5>Puntos: {{p.puntos}}/{{p.total_puntos}}</h5>
+        <h4>Curso</h4>
+        <h5><strong>Puntos: {{p.puntos}}/{{p.total_puntos}}</strong></h5>
         <div class="progress">
             <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width:{{por}}%">
                   {{por}}%
                 </div>
         </div>
 
-        <h5>Puntos obligatorios:{{p.puntos_vol}}/{{p.total_puntos_vol}}</h5>
+        <h5><strong>Puntos obligatorios:{{p.puntos_vol}}/{{p.total_puntos_vol}}</strong></h5>
         <div class="progress">
             <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width:{{porvol}}%">
                   {{porvol}}%
@@ -43,12 +44,12 @@
         <table class="table table-bordered">
             <tr>
                 {% for col,c in cab %}
-                    <td>{{c}}</td>
-               {% endfor %}
+                <td class="{{col}} text-center">{{c|safe}}</td>
+                {% endfor %}
            </tr>
            <tr class="info">
                {% for col,v in val %}
-                    <td>{{v}}</td>
+               <td class="{{col}} text-center">{{v|safe}}</td>
                {% endfor %}
           </tr>
         </table>
@@ -75,12 +76,12 @@
         <table class="table table-bordered">
         <tr>
         {%for col,dot in cab %}
-        <td class="{{col}} text-justify"> {{dot}}</td>
+        <td class="{{col}} text-center"> {{dot|safe}}</td>
         {% endfor%}
         </tr>
         <tr>
             {%for col,val in datos %}
-            <td class="{{col}} text-justify">{{val}}</td>
+            <td class="{{col}} text-center">{{val|safe}}</td>
             {% endfor %}
         </tr>
         </table>
