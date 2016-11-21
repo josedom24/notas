@@ -19,24 +19,27 @@ AUTHENTICATION_BACKENDS = (
 'django.contrib.auth.backends.ModelBackend',
 )
 
-AUTH_LDAP_SERVER_URI = 'ldap://192.168.102.2'
+import ConfigParser
+c = ConfigParser.ConfigParser()
+c.read('notas.cfg')
 
-AUTH_LDAP_BIND_DN = "cn=usuario-nss,dc=gonzalonazareno,dc=org"
-AUTH_LDAP_BIND_PASSWORD = "asdasd"
-AUTH_LDAP_USER_DN_TEMPLATE = "uid=%(user)s,ou=People,dc=gonzalonazareno,dc=org"
+AUTH_LDAP_SERVER_URI = c.get('ldap','AUTH_LDAP_SERVER_URI')
+AUTH_LDAP_BIND_DN = ""
+AUTH_LDAP_BIND_PASSWORD = ""
+AUTH_LDAP_USER_DN_TEMPLATE = c.get('ldap','AUTH_LDAP_USER_DN_TEMPLATE')
 
 AUTH_LDAP_CONNECTION_OPTIONS = {
 ldap.OPT_REFERRALS: 0
 }
 
 AUTH_LDAP_USER_FLAGS_BY_GROUP = {
-    "is_active": "cn=profesores,ou=Group,dc=gonzalonazareno,dc=org",
-    "is_staff": "cn=profesores,ou=Group,dc=gonzalonazareno,dc=org",
-    "is_superuser": "cn=profesores,ou=Group,dc=gonzalonazareno,dc=org"
+    "is_active": c.get('ldap','AUTH_LDAP_GROUP_ACTIVE')
+    "is_staff": c.get('ldap','AUTH_LDAP_GROUP_STAFF')
+    "is_superuser": c.get('ldap','AUTH_LDAP_GROUP_SUPERUSER')
 }
 AUTH_LDAP_GROUP_TYPE = PosixGroupType()
 
-AUTH_LDAP_GROUP_SEARCH = LDAPSearch("ou=Group,dc=gonzalonazareno,dc=org",
+AUTH_LDAP_GROUP_SEARCH = LDAPSearch(c.get('ldap','AUTH_LDAP_GROUP_SEARCH'),
         ldap.SCOPE_SUBTREE, "(objectClass=posixGroup)")
 
 AUTH_LDAP_USER_ATTR_MAP = {
@@ -134,7 +137,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-es'
 
 TIME_ZONE = 'UTC'
 
