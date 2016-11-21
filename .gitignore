@@ -4,3 +4,4 @@ notas.json
 notas.cfg
 *.swp
 *.swo
+*.sqlite3
