@@ -2,15 +2,32 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib.auth import logout
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate,login
 from django.contrib.auth.models import User
 import gspread
+from notas.libldap import LibLDAP
 from oauth2client.service_account import ServiceAccountCredentials
 
-@login_required(login_url='/admin/login/')
 
 def index(request):
+    if request.method=="GET":
+            return render(request,'login.html')
+    else:
+        username = request.POST["username"]
+        password = request.POST["password"]
+        lldap=LibLDAP(username,password)
+        if lldap.isbind:
+                request.session["username"]=username
+                busqueda='(uid=%s)'%username
+                resultados=lldap.buscar(busqueda)
+                info=resultados[0].get_attributes()
+                return index2(request,username,info["sn"][0]+", "+info["givenname"][0]) 
+        else:
+               info={"error":True}
+               return render(request,"login.html",info)
+
+
+def index2(request,username,nombre):
 
     scope = ['https://spreadsheets.google.com/feeds']
     credentials = ServiceAccountCredentials.from_json_keyfile_name('notas.json', scope)
@@ -21,21 +38,19 @@ def index(request):
     gengm=gm.worksheet("Windows")
     values_list_gs = gengs.col_values(1)
     values_list_gm = gengm.col_values(1)
-    nombre=request.user.last_name+", "+request.user.first_name
 
     if nombre in values_list_gs:
         return grado_sup(request,gs,values_list_gs.index(nombre)+1,nombre) 
     elif nombre in values_list_gm: 
         return grado_med(request,gm,values_list_gm.index(nombre)+1,nombre)
-    elif request.user.username=="josedom":
+    elif username=="josedom":
         return admin(request,values_list_gs[1:-2],values_list_gm[2:])
     else:
-        return HttpResponse("adios")
+        return render(request,'login.html')
 
 
-@login_required(login_url='/admin/login/')
 def ver(request,tipo,num):
-    if request.user.username=="josedom":
+    if request.session["username"]=="josedom":
         scope = ['https://spreadsheets.google.com/feeds']
         credentials = ServiceAccountCredentials.from_json_keyfile_name('notas.json', scope)
         gc = gspread.authorize(credentials)
@@ -158,10 +173,9 @@ def grado_sup(request,gs,celda,nombre):
     #return HttpReponse(context["datos"])
     return render(request,"index.html",context)
 
-@login_required(login_url='/admin/login/')
 def salir(request):
-       logout(request)
-       return redirect('/admin/login/')
+       del request.session["username"]
+       return redirect('/')
 
 def puntos(cab,indice):
     try:

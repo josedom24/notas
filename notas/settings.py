@@ -12,41 +12,10 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
-import ldap
-from django_auth_ldap.config import LDAPSearch,PosixGroupType
 AUTHENTICATION_BACKENDS = (
-'django_auth_ldap.backend.LDAPBackend',
 'django.contrib.auth.backends.ModelBackend',
 )
 
-import ConfigParser
-c = ConfigParser.ConfigParser()
-c.read('notas.cfg')
-
-AUTH_LDAP_SERVER_URI = c.get('ldap','AUTH_LDAP_SERVER_URI')
-AUTH_LDAP_BIND_DN = ""
-AUTH_LDAP_BIND_PASSWORD = ""
-AUTH_LDAP_USER_DN_TEMPLATE = c.get('ldap','AUTH_LDAP_USER_DN_TEMPLATE')
-
-AUTH_LDAP_CONNECTION_OPTIONS = {
-ldap.OPT_REFERRALS: 0
-}
-
-AUTH_LDAP_USER_FLAGS_BY_GROUP = {
-    "is_active": c.get('ldap','AUTH_LDAP_GROUP_ACTIVE')
-    "is_staff": c.get('ldap','AUTH_LDAP_GROUP_STAFF')
-    "is_superuser": c.get('ldap','AUTH_LDAP_GROUP_SUPERUSER')
-}
-AUTH_LDAP_GROUP_TYPE = PosixGroupType()
-
-AUTH_LDAP_GROUP_SEARCH = LDAPSearch(c.get('ldap','AUTH_LDAP_GROUP_SEARCH'),
-        ldap.SCOPE_SUBTREE, "(objectClass=posixGroup)")
-
-AUTH_LDAP_USER_ATTR_MAP = {
-    "first_name": "givenName",
-    "last_name": "sn",
-    "email": "mail"
-    }
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -161,16 +130,6 @@ STATICFILES_DIRS = (
                 )
 
 
-if DEBUG:
-    import logging, logging.handlers
-    logfile = "/tmp/django-ldap-debug.log"
-    my_logger = logging.getLogger('django_auth_ldap')
-    my_logger.setLevel(logging.DEBUG)
-
-    handler = logging.handlers.RotatingFileHandler(
-       logfile, maxBytes=1024 * 500, backupCount=5)
-
-    my_logger.addHandler(handler)
 
 from django.contrib import admin
 admin.site.site_header="Gonzalo Nazareno - Notas"
