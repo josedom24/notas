@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 import gspread
 from notas.libldap import LibLDAP
 from oauth2client.service_account import ServiceAccountCredentials
-
+from settings import FILE_CREDENCIALES
 
 def index(request):
     if request.method=="GET":
@@ -30,7 +30,7 @@ def index(request):
 def index2(request,username,nombre):
 
     scope = ['https://spreadsheets.google.com/feeds']
-    credentials = ServiceAccountCredentials.from_json_keyfile_name('notas.json', scope)
+    credentials = ServiceAccountCredentials.from_json_keyfile_name(FILE_CREDENCIALES, scope)
     gc = gspread.authorize(credentials)
     gs=gc.open("ServiciosGS")
     gm=gc.open("ServiciosGM")
@@ -52,7 +52,7 @@ def index2(request,username,nombre):
 def ver(request,tipo,num):
     if request.session["username"]=="josedom":
         scope = ['https://spreadsheets.google.com/feeds']
-        credentials = ServiceAccountCredentials.from_json_keyfile_name('notas.json', scope)
+        credentials = ServiceAccountCredentials.from_json_keyfile_name(FILE_CREDENCIALES, scope)
         gc = gspread.authorize(credentials)
         if tipo=="gs":
                 gs=gc.open("ServiciosGS")

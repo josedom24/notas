@@ -29,7 +29,7 @@ SECRET_KEY = '1#t-j2julyvxiquduj-)h7c#z^=gscazhaeq8+uaixrd=jre0k'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['notas.gonzalonazareno.org']
 
 
 # Application definition
@@ -58,7 +58,7 @@ ROOT_URLCONF = 'notas.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': [os.path.join(BASE_DIR,'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -129,6 +129,8 @@ STATICFILES_DIRS = (
             os.path.join(BASE_DIR,"static"),
                 )
 
+
+FILE_CREDENCIALES=os.path.join(BASE_DIR,'notas.json')
 
 
 from django.contrib import admin
