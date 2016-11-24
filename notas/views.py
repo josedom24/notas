@@ -14,7 +14,7 @@ def index(request):
             return render(request,'login.html')
     else:
         username = request.POST["username"]
-        password = request.POST["password"]
+        password = request.POST["password"].encode('utf-8')
         lldap=LibLDAP(username,password)
         if lldap.isbind:
                 request.session["username"]=username
@@ -28,7 +28,7 @@ def index(request):
 
 
 def index2(request,username,nombre):
-
+    print nombre
     scope = ['https://spreadsheets.google.com/feeds']
     credentials = ServiceAccountCredentials.from_json_keyfile_name(FILE_CREDENCIALES, scope)
     gc = gspread.authorize(credentials)
@@ -38,16 +38,17 @@ def index2(request,username,nombre):
     gengm=gm.worksheet("Windows")
     values_list_gs = gengs.col_values(1)
     values_list_gm = gengm.col_values(1)
-
-    if nombre in values_list_gs:
+    
+    if nombre.decode("utf-8") in values_list_gs:
         return grado_sup(request,gs,values_list_gs.index(nombre)+1,nombre) 
     elif nombre in values_list_gm: 
         return grado_med(request,gm,values_list_gm.index(nombre)+1,nombre)
     elif username=="josedom":
         return admin(request,values_list_gs[1:-2],values_list_gm[2:])
     else:
-        return render(request,'login.html')
-
+        #return render(request,'login.html')
+	return HttpResponse(nombre)
+	
 
 def ver(request,tipo,num):
     if request.session["username"]=="josedom":
