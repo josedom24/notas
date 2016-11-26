@@ -29,7 +29,7 @@ SECRET_KEY = '1#t-j2julyvxiquduj-)h7c#z^=gscazhaeq8+uaixrd=jre0k'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['notas.gonzalonazareno.org']
+ALLOWED_HOSTS = ['notas.gonzalonazareno.org','localhost']
 
 
 # Application definition

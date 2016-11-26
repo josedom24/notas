@@ -28,7 +28,6 @@ def index(request):
 
 
 def index2(request,username,nombre):
-    print nombre
     scope = ['https://spreadsheets.google.com/feeds']
     credentials = ServiceAccountCredentials.from_json_keyfile_name(FILE_CREDENCIALES, scope)
     gc = gspread.authorize(credentials)
@@ -39,34 +38,37 @@ def index2(request,username,nombre):
     values_list_gs = gengs.col_values(1)
     values_list_gm = gengm.col_values(1)
     
-    if nombre.decode("utf-8") in values_list_gs:
-        return grado_sup(request,gs,values_list_gs.index(nombre)+1,nombre) 
-    elif nombre in values_list_gm: 
-        return grado_med(request,gm,values_list_gm.index(nombre)+1,nombre)
+    #if username in values_list_gs:
+    if any(username in elem for elem in values_list_gs):
+        return grado_sup(request,gs,values_list_gs.index(username)+1,nombre) 
+    elif username in values_list_gm: 
+        return grado_med(request,gm,values_list_gm.index(username)+1,nombre)
     elif username=="josedom":
-        return admin(request,values_list_gs[1:-2],values_list_gm[2:])
+        return admin(request,gengs.col_values(2)[1:-2],gengm.col_values(2)[2:])
     else:
-        #return render(request,'login.html')
-	return HttpResponse(nombre)
+        return render(request,'login.html')
 	
 
 def ver(request,tipo,num):
-    if request.session["username"]=="josedom":
+    if request.session.has_key("username") and request.session["username"]=="josedom":
         scope = ['https://spreadsheets.google.com/feeds']
         credentials = ServiceAccountCredentials.from_json_keyfile_name(FILE_CREDENCIALES, scope)
         gc = gspread.authorize(credentials)
         if tipo=="gs":
                 gs=gc.open("ServiciosGS")
                 gengs=gs.worksheet("General")
-                values_list_gs = gengs.col_values(1)
+                values_list_gs = gengs.col_values(2)
                 nombre=values_list_gs[int(num)+1]
                 return grado_sup(request,gs,int(num)+2,nombre)
         else:
                 gm=gc.open("ServiciosGM")
                 gengm=gm.worksheet("Windows")
-                values_list_gm = gengm.col_values(1)
+                values_list_gm = gengm.col_values(2)
                 nombre=values_list_gm[int(num)+2]
                 return grado_med(request,gm,int(num)+3,nombre)
+    else:
+        return redirect('/')
+
 
 def admin(request,gs,gm):
     context={}
@@ -90,6 +92,9 @@ def grado_med(request,gm,celda,nombre):
         dic={}       
         dic['titulo']=hoja.title
         if cont==0:
+            cabeceras[0]=cabeceras[0][1:]
+            puntos[0]=puntos[0][1:]
+            datos[0]=datos[0][1:]
             dic['porcentaje']=int(float(datos[0][-2].replace(",","."))*100/int(puntos[0][-2]))
         else:
             dic['porcentaje']=int(float(datos[cont][-1].replace(",","."))*100/int(puntos[cont][-1]))
@@ -152,9 +157,12 @@ def grado_sup(request,gs,celda,nombre):
             col=['info','info','info','info','info','info','danger','danger','info','info','info','info','info','info','danger','danger','danger']
         cab=hoja.row_values(1)[1:]
         dat=hoja.row_values(celda)[1:]
+        
         cab[-1]=cab[-1].join(['<strong>','</strong>'])
         dat[-1]=dat[-1].join(['<strong>','</strong>'])
         if cont==1:
+            cab=cab[1:]
+            dat=dat[1:]
             for i in [6,7,-2,-3]:
                 cab[i]=cab[i].join(['<strong>','</strong>'])
                 dat[i]=dat[i].join(['<strong>','</strong>'])
