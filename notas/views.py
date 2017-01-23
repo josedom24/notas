@@ -85,7 +85,7 @@ def grado_med(request,gm,celda,nombre):
     puntos=[]
     info=[]
     cont=0
-    for hoja in gm.worksheets():
+    for hoja in gm.worksheets()[0:4]:
         cabeceras.append(hoja.row_values(1)[1:])
         puntos.append(hoja.row_values(2)[1:])
         datos.append(hoja.row_values(celda)[1:])
