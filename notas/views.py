@@ -118,7 +118,7 @@ def grado_med(request,gm,celda,nombre):
             lcabeceras[0]=lcabeceras[0][1:]
             lpuntos[0]=lpuntos[0][1:]
             ldatos[0]=ldatos[0][1:]
-            dic['porcentaje']=int(float(ldatos[0][-2].replace(",","."))*100/int(lpuntos[0][-2]))
+            di2c['porcentaje']=int(float(ldatos[0][-2].replace(",","."))*100/int(lpuntos[0][-2]))
         else:
             dic['porcentaje']=int(float(ldatos[cont][-1].replace(",","."))*100/int(lpuntos[cont][-1]))
         cont=cont+1
