@@ -108,7 +108,7 @@ def grado_med(request,gm,celda,nombre):
     print context["combi2"]
     #linux
     cont=0
-    for hoja in gm.worksheets()[5:]:
+    for hoja in gm.worksheets()[5:6]:
         lcabeceras.append(hoja.row_values(1)[1:])
         lpuntos.append(hoja.row_values(2)[1:])
         ldatos.append(hoja.row_values(celda)[1:])
