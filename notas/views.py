@@ -70,42 +70,70 @@ def ver(request,tipo,num):
         return redirect('/')
 
 
-def admin(request,gs,gm):
-    context={}
-    context["gs"]=gs
-    context["gm"]=gm
-    return render(request,"index3.html",context)
-
-
 def grado_med(request,gm,celda,nombre):
     context={}
     context["alumno"]=nombre
-    datos=[]
-    cabeceras=[]
-    puntos=[]
-    info=[]
+    wdatos=[]
+    wcabeceras=[]
+    wpuntos=[]
+    winfo=[]
+
+    ldatos=[]
+    lcabeceras=[]
+    lpuntos=[]
+    linfo=[]
+    #windows
+
     cont=0
     for hoja in gm.worksheets()[0:4]:
-        cabeceras.append(hoja.row_values(1)[1:])
-        puntos.append(hoja.row_values(2)[1:])
-        datos.append(hoja.row_values(celda)[1:])
+        wcabeceras.append(hoja.row_values(1)[1:])
+        wpuntos.append(hoja.row_values(2)[1:])
+        wdatos.append(hoja.row_values(celda)[1:])
         dic={}       
         dic['titulo']=hoja.title
         if cont==0:
-            cabeceras[0]=cabeceras[0][1:]
-            puntos[0]=puntos[0][1:]
-            datos[0]=datos[0][1:]
-            dic['porcentaje']=int(float(datos[0][-2].replace(",","."))*100/int(puntos[0][-2]))
+            wcabeceras[0]=wcabeceras[0][1:]
+            wpuntos[0]=wpuntos[0][1:]
+            wdatos[0]=wdatos[0][1:]
+            dic['porcentaje']=int(float(wdatos[0][-2].replace(",","."))*100/int(wpuntos[0][-2]))
         else:
-            dic['porcentaje']=int(float(datos[cont][-1].replace(",","."))*100/int(puntos[cont][-1]))
+            dic['porcentaje']=int(float(wdatos[cont][-1].replace(",","."))*100/int(wpuntos[cont][-1]))
         cont=cont+1
-        info.append(dic)
-    context["combi"]=zip(info,puntos,cabeceras,datos)
+        winfo.append(dic)
+    context["combi"]=zip(winfo,wpuntos,wcabeceras,wdatos)
     combi2=[]
     for i,punt,cab,dat in context["combi"][1:]:
         combi2.append(zip(cab,dat,punt))
-    context["combi2"]=zip(info[1:],combi2)
+    context["combi2"]=zip(winfo[1:],combi2)
     print context["combi2"]
+    #linux
+    cont=0
+    for hoja in gm.worksheets()[5:]:
+        lcabeceras.append(hoja.row_values(1)[1:])
+        lpuntos.append(hoja.row_values(2)[1:])
+        ldatos.append(hoja.row_values(celda)[1:])
+        dic={}       
+        dic['titulo']=hoja.title
+        if cont==0:
+            lcabeceras[0]=lcabeceras[0][1:]
+            lpuntos[0]=lpuntos[0][1:]
+            ldatos[0]=ldatos[0][1:]
+            dic['porcentaje']=int(float(ldatos[0][-2].replace(",","."))*100/int(lpuntos[0][-2]))
+        else:
+            dic['porcentaje']=int(float(ldatos[cont][-1].replace(",","."))*100/int(lpuntos[cont][-1]))
+        cont=cont+1
+        linfo.append(dic)
+    context["combi3"]=zip(linfo,lpuntos,lcabeceras,ldatos)
+    combi4=[]
+    for i,punt,cab,dat in context["combi3"][1:]:
+        combi4.append(zip(cab,dat,punt))
+    context["combi4"]=zip(linfo[1:],combi4)
+    print context["combi4"]
+
+
+
+
+
     return render(request,"index2.html",context)
 
 
