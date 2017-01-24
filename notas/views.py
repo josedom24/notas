@@ -48,6 +48,12 @@ def index2(request,username,nombre):
     else:
         return render(request,'login.html')
 	
+def admin(request,gs,gm):
+    context={}
+    context["gs"]=gs
+    context["gm"]=gm
+    return render(request,"index3.html",context)
+
 
 def ver(request,tipo,num):
     if request.session.has_key("username") and request.session["username"]=="josedom":
