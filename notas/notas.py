@@ -1,6 +1,6 @@
 from lxml import html
 import requests
-page = requests.get('https://docs.google.com/spreadsheets/d/e/2PACX-1vTsiimXZWscMXe7HGFeTdOg60aHBbHjbbRVQlawgig3mB9Kcudwxht_AvUufj30ncbdPgK9m8q-2yQe/pubhtml')
+page = requests.get('https://docs.google.com/spreadsheets/d/e/2PACX-1vQ4-twYojuwv8QEbSJdIDT3JCpOKYVNo3sL-kTGSz_aaIa6835nCJFRkniw12zwBqnh73YSHZppF56G/pubhtml#')
 tree = html.fromstring(page.content)
 titulos=tree.xpath('//a[@href="#"]/text()')
 cont=2
@@ -8,28 +8,42 @@ tables=[]
 for titulo in titulos[1:]:
 	tables.append([cont,titulo])
 	cont+=1
-print tables
 info=[]
-for table in tables[1:2]:
-	print "(//table)[%d]//td/text()"%table[0]
+for table in tables:
 	datos=tree.xpath("(//table)[%d]//td"%table[0])
-	print datos
 	datos2=[]
 	for d in datos:
-		print d.text
-		if d.text==None:
-			print ">>>"+d.xpath("//div/text()")[0]
-#			datos2.append(d)
-#		else:
-#			datos2.append()
-#	print datos2
-#	dic={}
-#	dic["titulo"]=table[1]
-#	dic["cabeceras"]=[]
-#	for i in datos2:
-#		print i
-#		if i[0]=="T" and len(i)<10:
-#			dic["cabeceras"].append(i)
-#			
-#	info.append(dic)
-#print info
+		try:
+			if d.text==None:
+				try:
+					datos2.append(d.find("div").text)
+				except:
+ 					datos2.append("")
+ 			else: datos2.append(d.text)
+ 		except:
+ 			datos2.append("")
+	dic={}
+	dic["titulo"]=table[1]
+	dic["cabeceras"]=[]
+
+	
+	
+	datos2.pop(0)
+	cont=0
+	for i in datos2:
+		cont+=1
+		if  len(i)>10: break
+		dic["cabeceras"].append(i)
+	datos2=datos2[cont-1:]
+			
+	info.append(dic)
+	dic["datos"]=datos2
+
+print info[0]
+print "#"*20
+print info[1]
+print "#"*20
+print info[2]
+print "#"*20
+print info[3]
+print "#"*20
