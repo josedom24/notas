@@ -25,11 +25,14 @@ def index(request):
 
 def index2(request,username,nombre):
     notas=Notas()
-    if es_alumno(nombre):
+    print notas.datos("Romero Angulo, María")
+    if notas.es_alumno(nombre):
         return alumno(request,username,nombre)
     else:
         return render(request,'login.html')
 	
+def alumno(request,username,nombre):
+    pass
 
 def salir(request):
     del request.session["username"]

@@ -70,3 +70,8 @@ class Notas:
 	def es_alumno_modulo(self,nombre,modulo):
 		return nombre in self.alumnos()[modulo]
 
+	def datos(self,nombre):
+		datos={}
+		for tit in self.titulos:
+			datos[tit]=self.info[tit]["datos"][nombre]		
+		return datos
