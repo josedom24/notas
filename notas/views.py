@@ -25,16 +25,11 @@ def index(request):
 
 def index2(request,username,nombre):
     notas=Notas()
-    if username=="josedom":
-        return admin(request)
-    elif es_alumno(nombre):
+    if es_alumno(nombre):
         return alumno(request,username,nombre)
     else:
         return render(request,'login.html')
 	
-def admin(request):
-    context={}
-    return render(request,"index3.html",context)
 
 def salir(request):
     del request.session["username"]
