@@ -15,11 +15,11 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from notas.views import index,salir,ver
+from views import index,salir
 
 urlpatterns = [
     #url(r'^admin/', admin.site.urls),
     url(r'^$',index),
     url(r'^logout/$',salir),
-    url(r'ver/(?P<tipo>[a-z]{2})/(?P<num>[0-9]+)/$',ver),
+    #url(r'ver/(?P<tipo>[a-z]{2})/(?P<num>[0-9]+)/$',ver),
     ]

@@ -36,14 +36,16 @@ for table in tables:
 		dic["cabeceras"].append(i)
 	datos2=datos2[cont-1:]
 			
+	
+	
+	dic["datos"]={}
 	info.append(dic)
-	dic["datos"]=datos2
+	for i in datos2:
+		if len(i)>10:
+			nombre=i
+			dic["datos"][nombre]=[]
+		else:
+			dic["datos"][nombre].append(i)
 
-print info[0]
-print "#"*20
-print info[1]
-print "#"*20
-print info[2]
-print "#"*20
-print info[3]
-print "#"*20
+
+print info
