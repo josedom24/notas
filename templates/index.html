@@ -4,8 +4,21 @@
 {% block content %}
  <div class="row">
     <div class="col-lg-12">
-        <h1>{{alumno}}</h1>
-        <h2>Servicios de Red e Internet (2ºASIR)</h2>
+        <h1>{{nombre}}</h1>
+        {% for asig,info in datos.items%}
+            <h3>{{asig}}</h3>
+            {% for prac in info%}
+                <h4>{{prac.titulo}}</h4>
+            {% endfor %}
+
+        {% endfor %}
+
+
+
+
+
+
+       <!-- <h2>Servicios de Red e Internet (2ºASIR)</h2>
         {% for info,cab,val in combi|slice:":1" %}
         <h3>{{info.titulo}}</h3>
         <hr/>
@@ -88,7 +101,7 @@
         {% if forloop.counter == 6 %}
         <hr/><h3>Segunda evaluación</h3>
         {% endif %}
-        {% endfor %}
+        {% endfor %}-->
     </div>
 </div>
 
