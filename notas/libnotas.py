@@ -72,14 +72,14 @@ class Notas:
 
 	def es_alumno(self,nombre):
 		for key,valor in self.alumnos().items():
-			return nombre in valor
+			if nombre in valor: return True
+		return False
 
 	def es_alumno_modulo(self,nombre,modulo):
 		return nombre in self.alumnos()[modulo]
 
 	def datos(self,nombre):
 		datos=copy.deepcopy(self.info)
-		print datos is self.info
 		for tit in self.titulos:
 			if not self.es_alumno_modulo(nombre,tit):
 				del datos[tit]

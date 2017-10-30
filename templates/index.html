@@ -1,14 +1,36 @@
 {% extends "base.html" %}
 
-
+{% load dic %}
 {% block content %}
  <div class="row">
     <div class="col-lg-12">
         <h1>{{nombre}}</h1>
         {% for asig,info in datos.items%}
             <h3>{{asig}}</h3>
+            <strong>Total:{{total|keyvalue:asig}}</strong><br>
+            <strong>Puntos:{{lleva|keyvalue:asig}}</strong><br/>
+            <strong>Nota:{{nota|keyvalue:asig}}</strong><br/>
+
+            <hr/>
+
             {% for prac in info%}
                 <h4>{{prac.titulo}}</h4>
+                <table class="table table-bordered">
+                <tr>
+                    {%for cab in prac.cabeceras %}
+                    <td class="text-center">{{cab}}</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    {%for dat in prac.datos.values %}
+                        {%for da in dat %}
+                            <td class="text-center">{{da}}</td>
+                        {% endfor %}
+                    {% endfor %}
+                </tr>
+                </table>
+
+
             {% endfor %}
 
         {% endfor %}
