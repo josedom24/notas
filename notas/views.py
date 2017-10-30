@@ -25,9 +25,10 @@ def index(request):
 
 def index2(request,username,nombre):
     notas=Notas()
-    print notas.info
     if username=="josedom":
         return admin(request)
+    elif es_alumno(nombre):
+        return alumno(request,username,nombre)
     else:
         return render(request,'login.html')
 	
