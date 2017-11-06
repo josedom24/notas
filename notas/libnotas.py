@@ -63,7 +63,7 @@ class Notas:
 				lista.append(dic)
 
 			self.info[tit]=lista
-			print self.info				
+							
 
 	def alumnos(self):
 		alumnos={}
