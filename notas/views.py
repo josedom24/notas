@@ -19,12 +19,14 @@ def index(request):
 				info=resultados[0].get_attributes()
 				return index2(request,username,info["sn"][0]+", "+info["givenname"][0]) 
 		else:
+			   
 			   info={"error":True}
 			   return render(request,"login.html",info)
 
 
 def index2(request,username,nombre):
 	notas=Notas()
+	print notas.alumnos()
 	if notas.es_alumno(username):
 		return alumno(request,username,nombre)
 	else:
@@ -33,7 +35,7 @@ def index2(request,username,nombre):
 def alumno(request,username,nombre):
 	notas=Notas()
 	datos=notas.datos(username)
-	
+
 	total={}
 	lleva={}
 	nota={}
@@ -46,6 +48,7 @@ def alumno(request,username,nombre):
 			else:
 				prac["total"]=int(prac["cabeceras"][-1])
 			acum+=prac["total"]
+			print prac["datos"]
 			acum2+=int(prac["datos"].values()[0][-1])
 		total[keys]=acum
 		lleva[keys]=acum2

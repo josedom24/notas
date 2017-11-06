@@ -4,8 +4,9 @@ import copy
 class Notas:
 	def __init__(self):
 		self.url=["https://docs.google.com/spreadsheets/d/e/2PACX-1vQ4-twYojuwv8QEbSJdIDT3JCpOKYVNo3sL-kTGSz_aaIa6835nCJFRkniw12zwBqnh73YSHZppF56G/pubhtml#",
-				"https://docs.google.com/spreadsheets/d/e/2PACX-1vTsiimXZWscMXe7HGFeTdOg60aHBbHjbbRVQlawgig3mB9Kcudwxht_AvUufj30ncbdPgK9m8q-2yQe/pubhtml"]
-		self.titulos=["IAW","Servicios"]
+				"https://docs.google.com/spreadsheets/d/e/2PACX-1vTsiimXZWscMXe7HGFeTdOg60aHBbHjbbRVQlawgig3mB9Kcudwxht_AvUufj30ncbdPgK9m8q-2yQe/pubhtml",
+				"https://docs.google.com/spreadsheets/d/e/2PACX-1vSgC7O1O3L9lwes4ECg_Fz2N4IkMRUatjl4pm5seeGvQm_JSHRWD4PqvKaJLXxAUG1lQ0hw7cNWIoWG/pubhtml"]
+		self.titulos=["IAW","Servicios","LM"]
 		self.info={}
 		for url,tit in zip(self.url,self.titulos):
 			page = requests.get(url)
@@ -62,7 +63,7 @@ class Notas:
 				lista.append(dic)
 
 			self.info[tit]=lista
-				
+			print self.info				
 
 	def alumnos(self):
 		alumnos={}
