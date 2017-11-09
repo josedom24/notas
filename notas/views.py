@@ -19,7 +19,6 @@ def index(request):
 				info=resultados[0].get_attributes()
 				return index2(request,username,info["sn"][0]+", "+info["givenname"][0]) 
 		else:
-			   return index2(request,"josemaria.montero","xxx")
 			   info={"error":True}
 			   return render(request,"login.html",info)
 
