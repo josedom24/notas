@@ -19,7 +19,7 @@ def index(request):
 				info=resultados[0].get_attributes()
 				return index2(request,username,info["sn"][0]+", "+info["givenname"][0]) 
 		else:
-			   
+			   return index2(request,"josemaria.montero","xxx")
 			   info={"error":True}
 			   return render(request,"login.html",info)
 
@@ -49,7 +49,10 @@ def alumno(request,username,nombre):
 				prac["total"]=int(prac["cabeceras"][-1])
 			acum+=prac["total"]
 			print prac["datos"]
-			acum2+=int(prac["datos"].values()[0][-1])
+			try:
+				acum2+=float(prac["datos"].values()[0][-1])
+			except:
+				acum2+=float(prac["datos"].values()[0][-1].replace(",","."))
 		total[keys]=acum
 		lleva[keys]=acum2
 		nota[keys]=round(float(acum2*10)/acum,2)
