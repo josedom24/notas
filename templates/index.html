@@ -1,131 +1,34 @@
 {% extends "base.html" %}
 
-{% load dic %}
 {% block content %}
  <div class="row">
     <div class="col-lg-12">
         <h1>{{nombre}}</h1>
-        {% for asig,info in datos.items%}
-            <h3>{{asig}}</h3>
-            <strong>Total:{{total|keyvalue:asig}}</strong><br>
-            <strong>Puntos:{{lleva|keyvalue:asig}}</strong><br/>
-            <strong>Nota:{{nota|keyvalue:asig}}</strong><br/>
-
-            <hr/>
-
-            {% for prac in info%}
-                <h4>{{prac.titulo}}</h4>
-                <table class="table table-bordered">
-                <tr>
-                    {%for cab in prac.cabeceras %}
-                    <td class="text-center">{{cab}}</td>
-                    {% endfor %}
-                </tr>
-                <tr>
-                    {%for dat in prac.datos.values %}
-                        {%for da in dat %}
-                            <td class="text-center">{{da}}</td>
-                        {% endfor %}
-                    {% endfor %}
-                </tr>
-                </table>
-
-
+        <h2>{{modulo}}</h2>
+        <table class="table table-bordered">
+        {%for dato in datos%}
+        <tr>
+            {%for row in dato%}
+            <td class="text-center"><strong>{{row}}</strong></td>
             {% endfor %}
-
+        </tr>
         {% endfor %}
-
-
-
-
-
-
-       <!-- <h2>Servicios de Red e Internet (2ºASIR)</h2>
-        {% for info,cab,val in combi|slice:":1" %}
-        <h3>{{info.titulo}}</h3>
+        </table>
         <hr/>
-        <h4>Primera evaluación</h4
-        <h5><strong>Puntos: {{p1ev.puntos}}/{{p1ev.total_puntos}}</strong></h5>
-        <div class="progress">
-            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width:{{por1ev}}%">
-                  {{por1ev}}%
-                </div>
-        </div>
-
-
-
-        <h5><strong>Puntos obligatorios:{{p1ev.puntos_vol}}/{{p1ev.total_puntos_vol}}</strong></h5>
-        <div class="progress">
-            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width:{{porvol1ev}}%">
-                  {{porvol1ev}}%
-                </div>
-        </div>
-        <hr/>
-        <h4>Curso</h4>
-        <h5><strong>Puntos: {{p.puntos}}/{{p.total_puntos}}</strong></h5>
-        <div class="progress">
-            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width:{{por}}%">
-                  {{por}}%
-                </div>
-        </div>
-
-        <h5><strong>Puntos obligatorios:{{p.puntos_vol}}/{{p.total_puntos_vol}}</strong></h5>
-        <div class="progress">
-            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width:{{porvol}}%">
-                  {{porvol}}%
-                </div>
-        </div>
-
+        {%for tit,practica in datos2%}
+        <h3>{{tit}}</h3>
         <table class="table table-bordered">
+            {%for dato in practica%}
             <tr>
-                {% for col,c in cab %}
-                <td class="{{col}} text-center">{{c|safe}}</td>
+                {%for row in dato%}
+                <td class="text-center"><strong>{{row}}</strong></td>
                 {% endfor %}
-           </tr>
-           <tr class="info">
-               {% for col,v in val %}
-               <td class="{{col}} text-center">{{v|safe}}</td>
-               {% endfor %}
-          </tr>
-        </table>
-        {% endfor %}        
-        <hr/><h3>Primera evaluación</h3>
-        {% for info,cab,datos in combi|slice:"1:" %}
-        <h4>{{info.titulo}}</h4>
-        <h5>Puntos:{{info.puntos}}/{{info.total_puntos}}</h5>
-        {% if info.tareas|length > 0 %}
-        <h5><strong>Tareas obligatorias que faltan:{{info.tareas|join:"," }}</strong></h5>
-        {% endif %}
-        <div class="progress">
-            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width:{{info.porcentaje}}%">
-                  {{info.porcentaje}}%
-                </div>
-        </div>
-        <h5>Puntos obligatorios:{{info.puntos_vol}}/{{info.total_puntos_vol}}</h5>
-        <div class="progress">
-            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="min-width: 2em; width:{{info.porcentaje_vol}}%">
-                  {{info.porcentaje_vol}}%
-                </div>
-        </div>
-
-        <table class="table table-bordered">
-        <tr>
-        {%for col,dot in cab %}
-        <td class="{{col}} text-center"> {{dot|safe}}</td>
-        {% endfor%}
-        </tr>
-        <tr>
-            {%for col,val in datos %}
-            <td class="{{col}} text-center">{{val|safe}}</td>
+            </tr>
             {% endfor %}
-        </tr>
-        </table>
-        {% if forloop.counter == 6 %}
-        <hr/><h3>Segunda evaluación</h3>
-        {% endif %}
-        {% endfor %}-->
+            </table>
+            {% endfor %}
+
+
     </div>
 </div>
-
-
 {% endblock %}

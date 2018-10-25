@@ -9,56 +9,31 @@ def index(request):
 	if request.method=="GET":
 			return render(request,'login.html')
 	else:
-		username = request.POST["username"]
-		password = request.POST["password"].encode('utf-8')
-		lldap=LibLDAP(username,password)
-		if lldap.isbind:
-				request.session["username"]=username
-				busqueda='(uid=%s)'%username
-				resultados=lldap.buscar(busqueda)
-				info=resultados[0].get_attributes()
-				return index2(request,username,info["sn"][0]+", "+info["givenname"][0]) 
-		else:
-			   info={"error":True}
-			   return render(request,"login.html",info)
+#		username = request.POST["username"]
+#		password = request.POST["password"].encode('utf-8')
+#		lldap=LibLDAP(username,password)
+#		if lldap.isbind:
+#				request.session["username"]=username
+#				busqueda='(uid=%s)'%username
+#				resultados=lldap.buscar(busqueda)
+#				info=resultados[0].get_attributes()
+				#return index2(request,username,info["sn"][0]+", "+info["givenname"][0]) 
+				return index2(request,"jesus.arias","Jesús Arias","IAW")
+#		else:
+#			   info={"error":True}
+#			   return render(request,"login.html",info)
 
 
-def index2(request,username,nombre):
-	notas=Notas()
-	print notas.alumnos()
+def index2(request,username,nombre,modulo):
+	notas=Notas(modulo)
 	if notas.es_alumno(username):
-		return alumno(request,username,nombre)
+		#info={"datos":datos,"nombre":nombre,"total":total,"lleva":lleva,"nota":nota}
+		info={"nombre":nombre,"modulo":modulo,"datos":notas.general(username),"datos2":notas.datos(username)}
+		print notas.datos(username)
+		return render(request,"index.html",info)    
 	else:
 		return render(request,'login.html')
 	
-def alumno(request,username,nombre):
-	notas=Notas()
-	datos=notas.datos(username)
-
-	total={}
-	lleva={}
-	nota={}
-	for keys,values in datos.items():
-		acum=0
-		acum2=0
-		for prac in values:
-			if "-" in prac["cabeceras"][-1]:
-				prac["total"]=int(prac["cabeceras"][-1].split("-")[0])
-			else:
-				prac["total"]=int(prac["cabeceras"][-1])
-			acum+=prac["total"]
-			print prac["datos"]
-			try:
-				acum2+=float(prac["datos"].values()[0][-1])
-			except:
-				acum2+=float(prac["datos"].values()[0][-1].replace(",","."))
-		total[keys]=acum
-		lleva[keys]=acum2
-		nota[keys]=round(float(acum2*10)/acum,2)
-		print total
-	info={"datos":datos,"nombre":nombre,"total":total,"lleva":lleva,"nota":nota}
-	return render(request,"index.html",info)    
-
 def salir(request):
 	del request.session["username"]
 	return redirect('/')

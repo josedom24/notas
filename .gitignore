@@ -1,5 +1,5 @@
 ldap.ldif
-notas.json
+*.json
 *.pyc
 notas.cfg
 *.swp
