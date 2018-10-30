@@ -1,8 +1,8 @@
 from gsheets import Sheets
-
+from settings import BASE_DIR
 class Notas:
 	def __init__(self,modulo):
-		sheets = Sheets.from_files('~/github/notas/client_secret.json', '~/github/notas/storage.json')
+		sheets = Sheets.from_files(os.path.join(BASE_DIR,'client_secret.json'), os.path.join(BASE_DIR,'/github/notas/storage.json'))
 		self.url={}
 		self.url["Servicios"]="1KcimLuIx2SCvJtGX2gdoafSKiOCzZJBjVPOKg4M50qc"
 		self.url["IAW"]="1RGvTli2W-vXmqWECq1IreHokveZQi-TGaA1mtCB9Q9k"
