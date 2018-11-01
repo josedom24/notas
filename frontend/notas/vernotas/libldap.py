@@ -1,7 +1,7 @@
 import ldap
 import ldap.modlist
 import ldif
-from StringIO import StringIO
+from io import StringIO
 from ldap.cidict import cidict
 
 class LibLDAP:
@@ -27,7 +27,7 @@ class LibLDAP:
                 self.isbind=True
             else:
                 self.isbind=False
-        except ldap.LDAPError, e:
+        except ldap.LDAPError as e:
             self.isbind=False
 
     def buscar(self,filter):
@@ -42,7 +42,6 @@ class LibLDAP:
         self.con.delete_s("uid="+uid+","+self.base_dn)
         self.con.unbind_s()
     def modify(self,uid,new,old):
-        print self.modldif(old,new)
         self.con.modify_s("uid="+uid+","+self.base_dn,self.modldif(old,new))
         self.con.unbind_s()
     def modldif(self,old,new):

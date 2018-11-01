@@ -38,7 +38,7 @@ class ConsultaAlumno(Resource):
                 res=[]
                 for pestaña in info:
                     titulos=[x for x in pestaña.values()[0]]
-                    valores=[round(x,2) if type(x)==float else x for x in pestaña.values() if x and x[0]==nombre][0]
+                    valores=[round(x,2) if type(x)==float else x for x in[x for x in pestaña.values() if x and x[0]==nombre][0]]
                     if valores[-1]!=0:
 
                         res.append({pestaña.title:[(x,y) for x,y in zip(titulos,valores) if y and x]})

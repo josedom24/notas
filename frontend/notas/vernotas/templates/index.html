@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+ <div class="row">
+    <div class="col-lg-12">
+        <h1>{{nombre}}</h1>
+        <h2>{{modulo}}</h2>
+        
+        {%for tabla in datos%}
+            {% for titulo,datos in tabla.items%}
+                <h3>{{titulo}}</h3>
+                <table class="table table-bordered">
+                <tr>
+                    {% for dato in datos%}
+                    <td>{{dato.0}}</td>
+                    {% endfor %}
+                </tr>
+                <tr>
+                    {% for dato in datos%}
+                    <td>{{dato.1}}</td>
+                    {% endfor %}
+                </tr>
+                </table>
+                {% endfor %}
+        {% endfor %}
+
+
+    </div>
+</div>
+{% endblock %}
