@@ -22,8 +22,8 @@ class ConsultaTitulos(Resource):
             return {"error":"No existe el módulo"},404
         else:
             info=sheets[url[modulo]].findall()
-            pestaña=info[0]
-            titulos=[x for x in general.values()[0][:] if x]
+            general=info[0]
+            titulos=[x for x in general.values()[0] if x]
             return {"titulos":titulos}
     
 class ConsultaAlumno(Resource):
@@ -37,9 +37,11 @@ class ConsultaAlumno(Resource):
             else:
                 res=[]
                 for pestaña in info:
-                    valores=[round(x,2) if type(x)==float else x for x in [x for x in pestaña.values() if x and x[0]==nombre][0] if not type(x)==str]
-                    if valores[0]>0:
-                        res.append({pestaña.title:valores})
+                    titulos=[x for x in pestaña.values()[0]]
+                    valores=[round(x,2) if type(x)==float else x for x in pestaña.values() if x and x[0]==nombre][0]
+                    if valores[-1]!=0:
+
+                        res.append({pestaña.title:[(x,y) for x,y in zip(titulos,valores) if y and x]})
                 return res
             
 

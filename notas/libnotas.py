@@ -4,7 +4,7 @@ import os
 class Notas:
 	def __init__(self,modulo):
 
-		print os.path.join(BASE_DIR,'client_secret.json')
+		
 		sheets = Sheets.from_files(os.path.join(BASE_DIR,'client_secret.json'),os.path.join(BASE_DIR,'storage.json'))
 		self.url={}
 		self.url["Servicios"]="1KcimLuIx2SCvJtGX2gdoafSKiOCzZJBjVPOKg4M50qc"
