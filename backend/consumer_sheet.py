@@ -52,5 +52,5 @@ api.add_resource(ConsultaTitulos, '/titulos/<string:modulo>')
 api.add_resource(ConsultaAlumno, '/alumnos/<string:modulo>/<string:nombre>')
 
 if __name__ == '__main__':
-    app.run(host=0.0.0.0,debug=True)
+    app.run("0.0.0.0",debug=True)
 

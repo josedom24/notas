@@ -25,7 +25,7 @@ SECRET_KEY = 'khnv44!(g@@t_5+s_*5bikbv91_%3v*^ngu)8glpw(ivn4iy1('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["notas.gonzalonazareno.org"]
 
 
 # Application definition
