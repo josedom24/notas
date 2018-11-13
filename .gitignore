@@ -5,3 +5,5 @@ notas.cfg
 *.swp
 *.swo
 *.sqlite3
+*.crt
+*.key

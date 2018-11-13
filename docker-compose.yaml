@@ -16,5 +16,8 @@ services:
     - frontend
     volumes:
     - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    - ./server.crt:/etc/nginx/server.crt:ro
+    - ./server.key:/etc/nginx/server.key:ro
     ports: 
     - "80:80"
+    - "443:443"
