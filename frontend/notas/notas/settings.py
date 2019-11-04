@@ -15,8 +15,8 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-#SITE_URL = 'https://dit.gonzalonazareno.org/notas'
-#SITE_URL_STATIC = 'https://dit.gonzalonazareno.org/notas/static/'
+SITE_URL = 'https://dit.gonzalonazareno.org/notas'
+SITE_URL_STATIC = 'https://dit.gonzalonazareno.org/notas/static/'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
