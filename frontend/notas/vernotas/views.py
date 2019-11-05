@@ -36,4 +36,4 @@ def index2(request,username,nombre,modulo):
     
 def salir(request):
     del request.session["username"]
-    return redirect('/')
+    return redirect('/notas')
