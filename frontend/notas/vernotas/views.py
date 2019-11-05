@@ -1,6 +1,7 @@
 from django.shortcuts import render,redirect
 from .libldap import LibLDAP
 from requests import get
+from django.http import HttpResponse
 # Create your views here.
 def index(request):
     if request.method=="GET":
@@ -25,6 +26,7 @@ def index(request):
 def index2(request,username,nombre,modulo):
     
     r = get("http://notas.gonzalonazareno.org:5000/alumnos/{}/{}".format(modulo,username))
+    return HttpResponse(r.status_code)
     if r.status_code==200:
         info={"nombre":nombre,"modulo":modulo,"datos":r.json()}
         print(r.json())
