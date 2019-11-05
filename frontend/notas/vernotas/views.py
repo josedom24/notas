@@ -26,7 +26,6 @@ def index(request):
 def index2(request,username,nombre,modulo):
     
     r = get("http://notas.gonzalonazareno.org:5000/alumnos/{}/{}".format(modulo,username))
-    return HttpResponse(r.url)
     if r.status_code==200:
         info={"nombre":nombre,"modulo":modulo,"datos":r.json()}
         print(r.json())
