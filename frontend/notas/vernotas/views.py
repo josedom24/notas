@@ -23,7 +23,7 @@ def index(request):
         	   return render(request,"login.html",info)
         #return index2(request,"jesus.arias","Jesús Arias","servicios")
 def index2(request,username,nombre,modulo):
-    r = get("http://backend:5000/alumnos/{}/{}".format(modulo,username))
+    r = get("http://notas.gonzalonazareno.org:5000/alumnos/{}/{}".format(modulo,username))
     if r.status_code==200:
         info={"nombre":nombre,"modulo":modulo,"datos":r.json()}
         print(r.json())
