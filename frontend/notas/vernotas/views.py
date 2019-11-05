@@ -23,6 +23,7 @@ def index(request):
         	   return render(request,"login.html",info)
         #return index2(request,"jesus.arias","Jesús Arias","servicios")
 def index2(request,username,nombre,modulo):
+    return HttpResponse("Hello, world. You're at the polls index.")
     r = get("http://notas.gonzalonazareno.org:5000/alumnos/{}/{}".format(modulo,username))
     if r.status_code==200:
         info={"nombre":nombre,"modulo":modulo,"datos":r.json()}
