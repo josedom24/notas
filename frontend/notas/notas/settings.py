@@ -15,6 +15,8 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+SITE_URL = 'https://dit.gonzalonazareno.org/notas'
+STATIC_URL = 'https://dit.gonzalonazareno.org/notas/static/'
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
@@ -25,7 +27,7 @@ SECRET_KEY = 'khnv44!(g@@t_5+s_*5bikbv91_%3v*^ngu)8glpw(ivn4iy1('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["notas.gonzalonazareno.org"]
+ALLOWED_HOSTS = ["notas.gonzalonazareno.org","dit.gonzalonazareno.org"]
 
 
 # Application definition
@@ -63,6 +65,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'notas.context_processor.my_site_url',
             ],
         },
     },
